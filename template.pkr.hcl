@@ -8,7 +8,7 @@ packer {
 }
 
 source "amazon-ebs" "ubuntu" {
-  ami_name      = "packer-aws-ubuntujammy-tfe-fdo-3"
+  ami_name      = "packer-aws-ubuntujammy-tfe-fdo-10"
   instance_type = "t3.large"
   region        = "eu-north-1"
   source_ami_filter {
@@ -21,6 +21,16 @@ source "amazon-ebs" "ubuntu" {
     owners      = ["679593333241"] # Cannonical Limited ltd.
   }
   ssh_username = "ubuntu"
+  aws_polling {
+    delay_seconds = 120
+    max_attempts  = 60
+  }
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_put_response_hop_limit = "1"
+    http_tokens                 = "required"
+  }
+  imds_support = "v2.0"
 }
 
 build {
